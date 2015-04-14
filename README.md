@@ -15,7 +15,7 @@ Public IP Addresses
 All servers are hosted in AWS using EC2 service
 
  1. Master = 52.4.40.18
- 2. Canary 1 (Blue) = 52.1.163.109
+ 2. Canary 1 (Blue) = 52.5.33.235
  3. Canary 2 (Green) = 52.5.15.126
 
 Diagram
@@ -45,7 +45,7 @@ The following steps should be followed to make canary1 and canary2 as remote rep
 
     ssh-keygen 
 
-    cat ~/.ssh/id_rsa.pub | ssh -i Nikhil.pem ubuntu@52.1.163.109 "cat >> .ssh/authorized_keys"
+    cat ~/.ssh/id_rsa.pub | ssh -i Nikhil.pem ubuntu@52.5.33.235 "cat >> .ssh/authorized_keys"
 
     cat ~/.ssh/id_rsa.pub | ssh -i Nikhil.pem ubuntu@52.5.15.126 "cat >> .ssh/authorized_keys"
 6. Bind this key with ssh command at master for authentication
@@ -61,7 +61,7 @@ $ ssh-add Nikhil.pem
 8. Add git remote
 
 ```bash
-$ git remote add blue ssh://ubuntu@52.1.163.109/blue.git
+$ git remote add blue ssh://ubuntu@52.5.33.235/blue.git
 $ git remote add green ssh://ubuntu@52.5.15.126/green.git
 ```
 # Setup remote git repo on canary1
