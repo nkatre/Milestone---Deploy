@@ -19,7 +19,7 @@ All servers are hosted in AWS using EC2 service
  3. Canary 2 (Green) = 52.5.15.126
 
 Diagram
-![ProjectPlan](https://github.com/nkatre/Milestone---Deploy/blob/master/outputImages/diagram.png)
+![ProjectPlan](https://github.com/nkatre/Milestone---Deploy/blob/master/outputImages/diagram1.png)
 
 
 Installations and AWS Settings
