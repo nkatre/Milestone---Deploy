@@ -1,6 +1,6 @@
 DevOps Milestone - Deployment
 ===================
-Team :
+Team Members:
 
  - Nikhil Katre (nkatre@ncsu.edu)
  - Pengyu Li (pli5@ncsu.edu)
