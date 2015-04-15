@@ -88,7 +88,7 @@ app.get('/meow', function(req, res) {
 // HTTP SERVER
 var server = app.listen(5001, function () {
 
-  var host = server.address().address
+  var host = "52.4.40.18"
   var port = server.address().port
   client.lpush("site",5001)
   console.log('Example app listening at http://%s:%s', host, port)
