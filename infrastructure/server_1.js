@@ -90,6 +90,6 @@ var server = app.listen(5001, function () {
 
   var host = server.address().address
   var port = server.address().port
-client.lpush("site",5001)
+  client.lpush("site",5001)
   console.log('Example app listening at http://%s:%s', host, port)
 })
