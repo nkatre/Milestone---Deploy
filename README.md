@@ -6,7 +6,7 @@ Team Members:
  - Pengyu Li (pli5@ncsu.edu)
  
 Submission: **Milestone#Deploy** <br>
-Link to Sample Web Application Used: [WebGoat](https://github.com/nkatre/WebGoat) <br>
+Link To Deployed Application: [WebGoat](https://github.com/nkatre/WebGoat) <br>
 Submission Files:
 >  - README.md
 
@@ -77,9 +77,9 @@ Now we do the following:
 
 2. Remote execute ***automatic_deployment.sh*** using salt and automatically deploy and start canary1 server.
 
-sudo salt canary1 cmd.run "chmod +x automatic_deploy.sh"
+    sudo salt canary1 cmd.run "chmod +x automatic_deploy.sh"
 
-sudo salt canary1 cmd.run "./automatic_deploy.sh"
+    sudo salt canary1 cmd.run "./automatic_deploy.sh"
 
 ## II.  Deployment of binaries created by build step
 
@@ -192,11 +192,9 @@ We have created a proxy sever as a router on http://52.4.40.18:5000. When users 
 		// visit test server(canary2);
 	}
 
-After bulit the application successfully on build server, we deploy the new version of application on canary1 server. In current situation, we can let 15% of users test this new version. When all test cases are successful, we deploy this version to canary2 server using the following comands.
+After bulit the application successfully on build server, we deploy the new version of application on test server(canary1). In this case, we can get 15% of users' test data. When all test cases are successful, we deploy this version to product server(canary2). 
 
-	git push green master  // green is on canary2 server 
-
-According to above strategy, we can implement the canary deployment and canary release. We also can change the ratio of users and do more testing on the application.
+According to above strategy, we can implement the canary deployment and canary release.
 
 ## V. Monitoring deployed application
 
@@ -217,5 +215,6 @@ To demonstrate this, follow the below mentioned images:
 ![Alert](https://github.com/nkatre/Milestone---Deploy/blob/master/outputImages/result1.png)
 2. This image demonstrates that when the threshold values for failure are crossed. Then the failure is set and this would in turn fail the server and the traffic would be redirected to the other server which is canary 2. In this image since the memory usage is above 70 and the CPU usage is above 50 hence the server has crossed the failure threshold and has failed. Thus, now the traffic would be redirected to another server.
 ![Failure](https://github.com/nkatre/Milestone---Deploy/blob/master/outputImages/result3.png)
+
 
 
