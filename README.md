@@ -85,8 +85,9 @@ GIT_WORK_TREE=/home/ubuntu/blue-www/ git checkout -f
 
 Make post-receive executable:
 $ chmod +x hooks/post-receive
+
+Select "All traffic" as inbound and outbound rules for EC2 instance
 ```
-## Select "All traffic" as inbound and outbound rules for EC2 instance
 
 # Setup remote git repo on canary2
 
@@ -110,8 +111,9 @@ GIT_WORK_TREE=/home/ubuntu/green-www/ git checkout -f
 Make post-receive executable:
 $ chmod +x hooks/post-receive
 
+
+Select "All traffic" as inbound and outbound rules for EC2 instance
 ```
-## Select "All traffic" as inbound and outbound rules for EC2 instance
 
 Evaluation
 -------------
