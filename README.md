@@ -183,9 +183,11 @@ We have created a proxy sever as a router on http://52.4.40.18:5000. When users 
 		// visit test server(canary2);
 	}
 
-After bulit the application successfully on build server, we deploy the new version of application on test server(canary1). In this case, we can get 15% of users' test data. When all test cases are successful, we deploy this version to product server(canary2). 
+After bulit the application successfully on build server, we deploy the new version of application on canary1 server. In current situation, we can let 15% of users test this new version. When all test cases are successful, we deploy this version to canary2 server using the following comands.
 
-According to above strategy, we can implement the canary deployment and canary release.
+	git push green master  // green is on canary2 server 
+
+According to above strategy, we can implement the canary deployment and canary release. We also can change the ratio of users and do more testing on the application.
 
 ## Monitoring deployed application
 
