@@ -37,6 +37,8 @@ All servers are hosted in AWS using EC2 service
  2. Canary 1 (Blue) = 52.5.33.235
  3. Canary 2 (Green) = 52.5.15.126
 
+A common key is used to access the above three servers. The AWS key file is named `Nikhil.pem` and can be found with this submission in the folder `AWSKey`
+
 Diagram
 ![ProjectPlan](https://github.com/nkatre/Milestone---Deploy/blob/master/outputImages/diagram1.png)
 
@@ -54,7 +56,7 @@ The following steps should be followed to make canary1 and canary2 as remote rep
 
 -- Steps for Master
  1. `ssh` to master using `ssh -i Nikhil.pem ubuntu@52.4.40.18` where `Nikhil.pem` is the AWS key file attached with this submission
- 2. Create a folder `Proj@Master` using `mkdir` 
+ 2. Create a folder  
  2. Inside this folder initialize a bare repository using `git init --bare`
  3. Clone [WebGoat](https://github.com/nkatre/WebGoat) repository inside this folder
  4. Transfer the key file Nikhil.pem to master from local using the command :
@@ -133,6 +135,38 @@ $ chmod +x hooks/post-receive
 
 Select "All traffic" as inbound and outbound rules for EC2 instance
 ```
+
+## Automatic deployment environment configuration
+
+We have created a shell script called ***automatic_deployment.sh*** to achieve an automatic deployment environment.
+
+The shell script does the following:
+
+ - Install the basic infrastructure which includes installing `git`, `redis-server`, `nodejs`, `npm`, `node` and `redis`
+ - Using git clone the repository which contains infrastructure to set up canary release environment and monitoring health status of the server.
+ - Now we run the monitor and canary server1 using the same shell script
+ - The following are the commands written in the shell script.
+
+    sudo apt-get install git
+    git clone https://github.com/nkatre/Milestone---Deploy.git
+    cd Milestone---Deploy/infrastructure/
+    chmod +x deploy_infrastructure.sh 
+    ./deploy_infrastructure.sh 
+    cd ../monitor/  
+    node main.js
+
+Now we do the following:
+1. Deliver ***automatic_deployment.sh*** to canary1 using salt-stack using the below command
+	
+    sudo salt canary1 cp.get_file salt://automatic_deploy.sh /home/ubuntu/automatic_deploy.sh
+
+2. Remote execute ***automatic_deployment.sh*** using salt and automatically deploy and start canary1 server.
+
+    sudo salt canary1 cmd.run "chmod +x automatic_deploy.sh"
+
+    sudo salt canary1 cmd.run "./automatic_deploy.sh"
+
+
 ## Canary Release
 
 ### Create a Proxy server as Canary release router
