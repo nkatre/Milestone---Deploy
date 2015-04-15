@@ -1,17 +1,37 @@
+
 var sio = require('socket.io')
   , http = require('http')
   , request = require('request')
   , os = require('os')
   ;
 
-var serverAddr="http://52.5.33.235"
-var port=5003
+// REDIS
+//var client = redis.createClient(6379, '127.0.0.1', {})
+
+var alertNum = 0;
+var faultNum = 0;
 
 var app = http.createServer(function (req, res) {
       res.writeHead(200, { 'Content-Type': 'text/html' });
       res.end();
     })
   , io = sio.listen(app);
+
+
+function alertNums()
+{
+    if(cpuAverage()>=20||memoryLoad()>=30)
+        ++alertNum;
+
+    return alertNum;
+}
+function faultNums()
+{
+    if(cpuAverage()>=50||memoryLoad()>=70)
+        ++faultNum;
+
+    return faultNum;
+}
 
 function memoryLoad()
 {
@@ -63,22 +83,21 @@ function cpuAverage()
 
 function measureLatenancy(server)
 {
-	var options = 
+	var options =
 	{
-		//url: 'http://localhost' + ":" + server.address().port,
-		url: serverAddr + ":" + port,
+		url: 'http://52.5.33.235' + ":" + 5003,
 	};
 	request(options, function (error, res, body) 
 	{
 		//server.latency = undefined;
 		var start = Date.now();
 		if (res.statusCode == 200) {
-		    console.log(start) // Show the HTML for the Google homepage.
+//		    console.log(start) // Show the HTML for the Google homepage.
 		}
 		
 		server.latency = Date.now() - start;
 	});
-	console.log(server.latency);
+//	console.log(server.latency);
 	return server.latency;
 }
 
@@ -132,7 +151,7 @@ setInterval( function ()
 {
 	io.sockets.emit('heartbeat', 
 	{ 
-        name: "Your Computer", cpu: cpuAverage(), memoryLoad: memoryLoad(),
+		name: "Your Computer", cpu: cpuAverage(), memoryLoad: memoryLoad(), alertNums: alertNums(), faultNums: faultNums(),
         nodes: calcuateColor()
    });
 
