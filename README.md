@@ -50,8 +50,48 @@ Install the following **ON ALL THREE INSTANCES (master, canary1 and canary2)** t
  2.  Download and Install [git](http://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
  3. ON ALL THREE INSTANCES (master, canary1 and canary2) allow **all traffic** option selected from security group in AWS
 
-Make canary1 and canary2 remote repositories to master
+
+## I.  Automatic deployment environment configuration
+
+We have created a shell script called ***automatic_deployment.sh*** to achieve an automatic deployment environment.
+
+The shell script does the following:
+
+ - Install the basic infrastructure which includes installing `git`, `redis-server`, `nodejs`, `npm`, `node` and `redis`
+ - Using git clone the repository which contains infrastructure to set up canary release environment and monitoring health status of the server.
+ - Now we run the monitor and canary server1 using the same shell script
+ - The following are the commands written in the shell script.
+
+>     sudo apt-get install git
+>     git clone https://github.com/nkatre/Milestone---Deploy.git
+>     cd Milestone---Deploy/infrastructure/
+>     chmod +x deploy_infrastructure.sh 
+>     ./deploy_infrastructure.sh 
+>     cd ../monitor/  
+>     node main.js
+
+Now we do the following:
+1. Deliver ***automatic_deployment.sh*** to canary1 using salt-stack using the below command
+	
+    sudo salt canary1 cp.get_file salt://automatic_deploy.sh /home/ubuntu/automatic_deploy.sh
+
+2. Remote execute ***automatic_deployment.sh*** using salt and automatically deploy and start canary1 server.
+
+sudo salt canary1 cmd.run "chmod +x automatic_deploy.sh"
+
+sudo salt canary1 cmd.run "./automatic_deploy.sh"
+
+## II.  Deployment of binaries created by build step
+
+ 1. In each instances of the servers, canary1 and canary 2 we are building the application locally. That is each of the servers, canary1 and canary2 have build management tool (Here, we have used salt-stack).
+ 2. After build is successful, the binaries are deployed and the application is run on each of the server instances.
+ 3. This is taken care since the salt-stack builds the application on each of the server instances.
+
+
+III. Remote deployment
 -------------
+Make canary1 and canary2 remote repositories to master. We will use git to deploy the code remotely using `post-receive hook` in bare git repository
+ 
 The following steps should be followed to make canary1 and canary2 as remote repository of master
 
 -- Steps for Master
@@ -136,38 +176,7 @@ $ chmod +x hooks/post-receive
 Select "All traffic" as inbound and outbound rules for EC2 instance
 ```
 
-## Automatic deployment environment configuration
-
-We have created a shell script called ***automatic_deployment.sh*** to achieve an automatic deployment environment.
-
-The shell script does the following:
-
- - Install the basic infrastructure which includes installing `git`, `redis-server`, `nodejs`, `npm`, `node` and `redis`
- - Using git clone the repository which contains infrastructure to set up canary release environment and monitoring health status of the server.
- - Now we run the monitor and canary server1 using the same shell script
- - The following are the commands written in the shell script.
-
-    sudo apt-get install git
-    git clone https://github.com/nkatre/Milestone---Deploy.git
-    cd Milestone---Deploy/infrastructure/
-    chmod +x deploy_infrastructure.sh 
-    ./deploy_infrastructure.sh 
-    cd ../monitor/  
-    node main.js
-
-Now we do the following:
-1. Deliver ***automatic_deployment.sh*** to canary1 using salt-stack using the below command
-	
-    sudo salt canary1 cp.get_file salt://automatic_deploy.sh /home/ubuntu/automatic_deploy.sh
-
-2. Remote execute ***automatic_deployment.sh*** using salt and automatically deploy and start canary1 server.
-
-    sudo salt canary1 cmd.run "chmod +x automatic_deploy.sh"
-
-    sudo salt canary1 cmd.run "./automatic_deploy.sh"
-
-
-## Canary Release
+## IV. Canary Release
 
 ### Create a Proxy server as Canary release router
 We have created a proxy sever as a router on http://52.4.40.18:5000. When users visit this address, the router will randomly select 85% of users to visit the production server(canary2), and selects 15% of users to visit the test server(canary1). Every new version of the code is pushed on canary 1. 
@@ -189,7 +198,7 @@ After bulit the application successfully on build server, we deploy the new vers
 
 According to above strategy, we can implement the canary deployment and canary release. We also can change the ratio of users and do more testing on the application.
 
-## Monitoring deployed application
+## V. Monitoring deployed application
 
 After deployment of new version on Canary 1, we are monitoring the health of this server by parameters such as CPU usage, memory utilization, Fault number and Alert number.
 
