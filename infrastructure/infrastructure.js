@@ -19,14 +19,26 @@ app.use(function(req, res, next)
 	next(); // Passing the request to the next handler in the stack.
 });
 
-
+var num=1
 function proxy(req,res){
-	client.rpoplpush("site","list",function(error,item){
-		console.log(item)
-		res.redirect("http://localhost:"+item+req.url);
-	});
-	client.rpoplpush("list","site")
-}
+	if (num == 2) {
+		client.rpoplpush("site","list",function(error,item){
+		item = 5001
+		console.log("run server1")
+		num = 1;
+		res.redirect("http://52.5.33.235:"+item+req.url);
+		});
+		client.rpoplpush("list","site")
+	} else {
+		client.rpoplpush("site","list",function(error,item){
+                item = 5002
+                console.log("run server2")
+                num = 2;
+                res.redirect("http://52.5.15.126:"+item+req.url);
+	        });
+       		client.rpoplpush("list","site")
+	}
+}	
 app.get('/', function(req, res) {
   	proxy(req,res)
 })
@@ -55,7 +67,8 @@ app.post('/upload',[ multer({ dest: './uploads/'}), function(req, res){
 // HTTP SERVER
 var server = app.listen(5000, function () {
 
-  var host = server.address().address
+//  var host = server.address().address
+  var host = "52.4.40.18"
   var port = server.address().port
 	client.lpush("site",5000)
   console.log('Example app listening at http://%s:%s', host, port)
