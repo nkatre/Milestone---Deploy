@@ -147,13 +147,13 @@ The shell script does the following:
  - Now we run the monitor and canary server1 using the same shell script
  - The following are the commands written in the shell script.
 
-> sudo apt-get install git git clone
-> https://github.com/nkatre/Milestone---Deploy.git 
-> cd Milestone---Deploy/infrastructure/ 
-> chmod +x deploy_infrastructure.sh
-> ./deploy_infrastructure.sh 
-> cd ../monitor/ 
-> node main.js
+    sudo apt-get install git
+    git clone https://github.com/nkatre/Milestone---Deploy.git
+    cd Milestone---Deploy/infrastructure/
+    chmod +x deploy_infrastructure.sh 
+    ./deploy_infrastructure.sh 
+    cd ../monitor/  
+    node main.js
 
 Now we do the following:
 1. Deliver ***automatic_deployment.sh*** to canary1 using salt-stack using the below command
@@ -206,4 +206,5 @@ To demonstrate this, follow the below mentioned images:
 ![Alert](https://github.com/nkatre/Milestone---Deploy/blob/master/outputImages/result1.png)
 2. This image demonstrates that when the threshold values for failure are crossed. Then the failure is set and this would in turn fail the server and the traffic would be redirected to the other server which is canary 2. In this image since the memory usage is above 70 and the CPU usage is above 50 hence the server has crossed the failure threshold and has failed. Thus, now the traffic would be redirected to another server.
 ![Failure](https://github.com/nkatre/Milestone---Deploy/blob/master/outputImages/result3.png)
+
 
