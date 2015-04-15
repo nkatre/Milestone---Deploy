@@ -133,7 +133,7 @@ $ chmod +x hooks/post-receive
 
 Select "All traffic" as inbound and outbound rules for EC2 instance
 ```
-## Canary Release and Monitoring
+## Canary Release
 
 ### Create a Proxy server as Canary release router
 We have created a proxy sever as a router on http://52.4.40.18:5000. When users visit this address, the router will randomly select 85% of users to visit the production server(canary2), and selects 15% of users to visit the test server(canary1). Every new version of the code is pushed on canary 1. 
@@ -153,7 +153,7 @@ After bulit the application successfully on build server, we deploy the new vers
 
 According to above strategy, we can implement the canary deployment and canary release.
 
-### Monitoring Canary 1 (Test server)
+## Monitoring deployed application
 
 After deployment of new version on Canary 1, we are monitoring the health of this server by parameters such as CPU usage, memory utilization, Fault number and Alert number.
 
