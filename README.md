@@ -147,13 +147,13 @@ The shell script does the following:
  - Now we run the monitor and canary server1 using the same shell script
  - The following are the commands written in the shell script.
 
-    sudo apt-get install git
-    git clone https://github.com/nkatre/Milestone---Deploy.git
-    cd Milestone---Deploy/infrastructure/
-    chmod +x deploy_infrastructure.sh 
-    ./deploy_infrastructure.sh 
-    cd ../monitor/  
-    node main.js
+>     sudo apt-get install git
+>     git clone https://github.com/nkatre/Milestone---Deploy.git
+>     cd Milestone---Deploy/infrastructure/
+>     chmod +x deploy_infrastructure.sh 
+>     ./deploy_infrastructure.sh 
+>     cd ../monitor/  
+>     node main.js
 
 Now we do the following:
 1. Deliver ***automatic_deployment.sh*** to canary1 using salt-stack using the below command
@@ -162,9 +162,9 @@ Now we do the following:
 
 2. Remote execute ***automatic_deployment.sh*** using salt and automatically deploy and start canary1 server.
 
-    sudo salt canary1 cmd.run "chmod +x automatic_deploy.sh"
+sudo salt canary1 cmd.run "chmod +x automatic_deploy.sh"
 
-    sudo salt canary1 cmd.run "./automatic_deploy.sh"
+sudo salt canary1 cmd.run "./automatic_deploy.sh"
 
 
 ## Canary Release
