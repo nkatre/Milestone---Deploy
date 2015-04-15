@@ -10,6 +10,25 @@ Link To Sample Repository Used: [WebGoat](https://github.com/nkatre/WebGoat) <br
 Submission Files:
 >  - README.md
 
+
+Evaluation
+-------------
+
+**Milestone#Deploy** is evaluated based on the following
+ **Evaluation Parameters:**
+
+ - Automatic deployment environment configuration: 20%
+   
+ - Deployment of binaries created by build step: 20%
+   
+ - Remote deployment: 20%
+   
+ - Canary releasing: 20%
+   
+ - Canary analysis: 20%
+
+----------
+
 Public IP Addresses
 -------------
 All servers are hosted in AWS using EC2 service
@@ -114,10 +133,10 @@ $ chmod +x hooks/post-receive
 
 Select "All traffic" as inbound and outbound rules for EC2 instance
 ```
-## Canary Release
+## Canary Release and Monitoring
 
 ### Create a Proxy server as Canary release router
-We have created a proxy sever as a router on http://localhost:5000. When users visit this address, the router will randomly select 85% of users to visit the product server(canary2), and selects 15% of users to visit the test server(canary1). 
+We have created a proxy sever as a router on http://52.4.40.18:5000. When users visit this address, the router will randomly select 85% of users to visit the production server(canary2), and selects 15% of users to visit the test server(canary1). Every new version of the code is pushed on canary 1. 
 
 	// get a random number
 	function randomIntInc (low, high) {
@@ -130,25 +149,28 @@ We have created a proxy sever as a router on http://localhost:5000. When users v
 		// visit test server(canary2);
 	}
 
-After bulit the application successfully on build server, we deploy the new version of application on test server(canary1). In this case, we can get 15% of users' test data. When all test cases are successful, we can deploy this version to product server(canary2). 
+After bulit the application successfully on build server, we deploy the new version of application on test server(canary1). In this case, we can get 15% of users' test data. When all test cases are successful, we deploy this version to product server(canary2). 
 
 According to above strategy, we can implement the canary deployment and canary release.
 
+### Monitoring Canary 1 (Test server)
 
-Evaluation
--------------
+After deployment of new version on Canary 1, we are monitoring the health of this server by parameters such as CPU usage, memory utilization, Fault number and Alert number.
 
-**Milestone#Deploy** is evaluated based on the following
- **Evaluation Parameters:**
+One can visit `monitor.html` on Canary 1 to check the status of the server.
 
- - Automatic deployment environment configuration: 20%
-   
- - Deployment of binaries created by build step: 20%
-   
- - Remote deployment: 20%
-   
- - Canary releasing: 20%
-   
- - Canary analysis: 20%
+We have also set a threshold parameter to simulate server failure condition. We use two paramaters which are constantly monitored.
 
-----------
+    1. Memory Usage
+    2. CPU Usage:
+
+***`ALERT:`* If the memory usage is above 30 and the CPU usage is above 20  then alert would be set off. *`FAILURE:`* If the memory usage if above 70 and the CPU usage is above 50 then the server would fail.**
+
+To demonstrate this, follow the below mentioned images:
+
+1. This image demonstrates alert when threshold values are crossed. Here the alert count is 1 (alert is set off) since the CPU usage is 33 which is above 20 and the memory usage is 45 which is above 30.
+![Alert](https://github.com/nkatre/Milestone---Deploy/blob/master/outputImages/result1.png)
+2. This image demonstrates that when the threshold values for failure are crossed. Then the failure is set and this would in turn fail the server and the traffic would be redirected to the other server which is canary 2. In this image since the memory usage is above 70 and the CPU usage is above 50 hence the server has crossed the failure threshold and has failed. Thus, now the traffic would be redirected to another server.
+![Failure](https://github.com/nkatre/Milestone---Deploy/blob/master/outputImages/result3.png)
+
+
