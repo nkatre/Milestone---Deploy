@@ -6,7 +6,7 @@ Team Members:
  - Pengyu Li (pli5@ncsu.edu)
  
 Submission: **Milestone#Deploy** <br>
-Link To Sample Repository Used: [WebGoat](https://github.com/nkatre/WebGoat) <br>
+Link to Sample Web Application Used: [WebGoat](https://github.com/nkatre/WebGoat) <br>
 Submission Files:
 >  - README.md
 
