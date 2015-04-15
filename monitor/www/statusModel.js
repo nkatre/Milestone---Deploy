@@ -22,6 +22,7 @@ var StatusModel = function(clients) {
             {
                 koObj.cpu(person.cpu);
                 koObj.memoryLoad(person.memoryLoad);
+		        koObj.testResult(person.testResult);
                 koObj.nodes([]);
                 for( var j = 0; j < person.nodes.length ; j++ )
                 {
@@ -45,6 +46,8 @@ var ClientModel = function(client)
     self.cpu = ko.observable(client.cpu);
     self.memoryLoad = ko.observable(client.memoryLoad);
     self.name = ko.observable(client.name);
+    self.alertNums = ko.observable(client.alertNums);
+    self.faultNums = ko.observable(client.faultNums);
     self.nodes = ko.observableArray([]);
 
     // init
@@ -63,7 +66,7 @@ var NodeModel = function(node) {
 var viewModel = new StatusModel(
 [
     { 
-        name: "Fake Client", cpu: "39.95", memoryLoad: "40",
+	    name: "Fake Client", cpu: "50", memoryLoad: "100", alertNums: "50", faultNums: "50",
         nodes: 
         [
             {color:"#00ff00"},
@@ -72,7 +75,7 @@ var viewModel = new StatusModel(
         ]
     },
     { 
-        name: "Your Computer", cpu: "0.00", memoryLoad: "0",
+	    name: "Your Computer", cpu: "0.00", memoryLoad: "0", alertNums: "0", faultNums: "0",
         nodes: 
         [
             {color:"#ab3fdd"},
@@ -88,7 +91,7 @@ $(document).ready( function()
     ko.applyBindings(viewModel);
     $('#statusTable').DataTable( { "paging":   false, "info":     false });
 
-    var socket = io.connect('http://localhost:3000');
+    var socket = io.connect('http://52.5.33.235:5003');
 
     socket.on("heartbeat", function(client) 
     {
@@ -98,6 +101,8 @@ $(document).ready( function()
             name:client.name, 
             cpu:client.cpu, 
             memoryLoad: client.memoryLoad,
+            alertNums: client.alertNums,
+            faultNums: client.faultNums,
             nodes:client.nodes 
         });
     });
