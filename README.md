@@ -64,9 +64,9 @@ $ ssh-add Nikhil.pem
 $ git remote add blue ssh://ubuntu@52.5.33.235/blue.git
 $ git remote add green ssh://ubuntu@52.5.15.126/green.git
 ```
-# Setup remote git repo on canary1
+Setup remote git repo on canary1
 
-## Create a bare repository
+### Create a bare repository
 
 ```bash
 $ mkdir blue.git
@@ -74,7 +74,7 @@ $ cd blue.git
 $ git init --bare
 ```
 
-## Set GIT_WORK_TREE
+### Set GIT_WORK_TREE
 
 ```bash
 $ mkdir /home/ubuntu/blue-www/
@@ -89,9 +89,9 @@ $ chmod +x hooks/post-receive
 Select "All traffic" as inbound and outbound rules for EC2 instance
 ```
 
-# Setup remote git repo on canary2
+## Setup remote git repo on canary2
 
-## Create a bare repository
+### Create a bare repository
 
 ```bash
 $ mkdir green.git
@@ -99,7 +99,7 @@ $ cd green.git
 $ git init --bare
 ```
 
-## Set GIT_WORK_TREE
+### Set GIT_WORK_TREE
 
 ```bash
 $ mkdir /home/ubuntu/green-www/
@@ -114,6 +114,26 @@ $ chmod +x hooks/post-receive
 
 Select "All traffic" as inbound and outbound rules for EC2 instance
 ```
+## Canary Release
+
+### Create a Proxy server as Canary release router
+We have created a proxy sever as a router on http://localhost:5000. When users visit this address, the router will randomly select 85% of users to visit the product server(canary2), and selects 15% of users to visit the test server(canary1). 
+
+	// get a random number
+	function randomIntInc (low, high) {
+    		return Math.floor(Math.random() * (high - low + 1) + low);
+	}
+	var num = randomIntInc(1, 100);
+	if (num > 15) {
+		// visit product server(canary1);
+	} else {
+		// visit test server(canary2);
+	}
+
+After bulit the application successfully on build server, we deploy the new version of application on test server(canary1). In this case, we can get 15% of users' test data. When all test cases are successful, we can deploy this version to product server(canary2). 
+
+According to above strategy, we can implement the canary deployment and canary release.
+
 
 Evaluation
 -------------

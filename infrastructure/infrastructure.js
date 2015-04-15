@@ -19,13 +19,20 @@ app.use(function(req, res, next)
 	next(); // Passing the request to the next handler in the stack.
 });
 
-var num=1
+// get a random number
+function randomIntInc (low, high) {
+    return Math.floor(Math.random() * (high - low + 1) + low);
+}
+
+var num= randomIntInc(1, 100);
 function proxy(req,res){
-	if (num == 2) {
+	num= randomIntInc(1, 100);
+	console.log(num);
+	if (num < 50) {
 		client.rpoplpush("site","list",function(error,item){
 		item = 5001
 		console.log("run server1")
-		num = 1;
+	//	num = 1;
 		res.redirect("http://52.5.33.235:"+item+req.url);
 		});
 		client.rpoplpush("list","site")
@@ -33,7 +40,7 @@ function proxy(req,res){
 		client.rpoplpush("site","list",function(error,item){
                 item = 5002
                 console.log("run server2")
-                num = 2;
+          //      num = 2;
                 res.redirect("http://52.5.15.126:"+item+req.url);
 	        });
        		client.rpoplpush("list","site")
