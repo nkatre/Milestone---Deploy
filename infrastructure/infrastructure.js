@@ -28,7 +28,7 @@ var num= randomIntInc(1, 100);
 function proxy(req,res){
 	num= randomIntInc(1, 100);
 	console.log(num);
-	if (num < 50) {
+	if (num < 101) {
 		client.rpoplpush("site","list",function(error,item){
 		item = 5001
 		console.log("run server1")
