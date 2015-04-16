@@ -175,8 +175,10 @@ $ chmod +x hooks/post-receive
 Select "All traffic" as inbound and outbound rules for EC2 instance
 ```
 **OUTPUT:**
+
 1. Pushing to blue repository (Canary1)
 ![BluePush](https://github.com/nkatre/Milestone---Deploy/blob/master/outputImages/bluePush.png)
+
 2. Pushing to green repository (Canary2)
 ![GreenPush](https://github.com/nkatre/Milestone---Deploy/blob/master/outputImages/greenPush.png)
 
