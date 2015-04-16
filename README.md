@@ -6,7 +6,7 @@ Team Members:
  - Pengyu Li (pli5@ncsu.edu)
  
 Submission: **Milestone#Deploy** <br>
-Link To Deployed Application: [WebGoat](https://github.com/nkatre/WebGoat) <br>
+Link To Sample Repository Used: [WebGoat](https://github.com/nkatre/WebGoat) <br>
 Submission Files:
 >  - README.md
 
@@ -96,9 +96,8 @@ The following steps should be followed to make canary1 and canary2 as remote rep
 
 -- Steps for Master
  1. `ssh` to master using `ssh -i Nikhil.pem ubuntu@52.4.40.18` where `Nikhil.pem` is the AWS key file attached with this submission
- 2. Create a folder  
- 2. Inside this folder initialize a bare repository using `git init --bare`
- 3. Clone [WebGoat](https://github.com/nkatre/WebGoat) repository inside this folder
+ 2. Clone [Milestone---Deploy](https://github.com/nkatre/Milestone---Deploy) repository
+ 3. cd Milestone---Deploy
  4. Transfer the key file Nikhil.pem to master from local using the command :
 
     scp -i Nikhil.pem Nikhil.pem ubuntu@52.4.40.18
@@ -122,8 +121,8 @@ $ ssh-add Nikhil.pem
 8. Add git remote
 
 ```bash
-$ git remote add blue ssh://ubuntu@52.5.33.235/home/ubuntu/blue.git
-$ git remote add green ssh://ubuntu@52.5.15.126/home/ubuntu/green.git
+$ git remote add blue ssh://ubuntu@52.5.33.235/blue.git
+$ git remote add green ssh://ubuntu@52.5.15.126/green.git
 ```
 Setup remote git repo on canary1
 
@@ -175,6 +174,11 @@ $ chmod +x hooks/post-receive
 
 Select "All traffic" as inbound and outbound rules for EC2 instance
 ```
+**OUTPUT:**
+1. Pushing to blue repository (Canary1)
+![BluePush](https://github.com/nkatre/Milestone---Deploy/blob/master/outputImages/bluePush.png)
+2. Pushing to green repository (Canary2)
+![GreenPush](https://github.com/nkatre/Milestone---Deploy/blob/master/outputImages/greenPush.png)
 
 ## IV. Canary Release
 
