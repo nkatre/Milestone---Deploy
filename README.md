@@ -62,11 +62,10 @@ The shell script does the following:
  - Now we run the monitor and canary server1 using the same shell script
  - The following are the commands written in the shell script.
 
->     sudo apt-get install git
->     git clone https://github.com/nkatre/Milestone---Deploy.git
->     cd Milestone---Deploy/infrastructure/
+>     cd /home/ubuntu/blue-www/infrastructure
 >     chmod +x deploy_infrastructure.sh 
 >     ./deploy_infrastructure.sh 
+>     node server_1.js
 >     cd ../monitor/  
 >     node main.js
 
@@ -206,7 +205,7 @@ According to above strategy, we can implement the canary deployment and canary r
 
 After deployment of new version on Canary 1, we are monitoring the health of this server by parameters such as CPU usage, memory utilization, Fault number and Alert number.
 
-One can visit `monitor.html` on Canary 1 to check the status of the server.
+One can visit `monitor` index page on Canary 1 (http://52.5.33.235:5001/monitor) to check the status of the server.
 
 We have also set a threshold parameter to simulate server failure condition. We use two paramaters which are constantly monitored.
 
