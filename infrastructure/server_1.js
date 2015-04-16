@@ -2,6 +2,7 @@ var redis = require('redis')
 var multer  = require('multer')
 var express = require('express')
 var fs      = require('fs')
+var open = require('open')
 var app = express()
 // REDIS
 var client = redis.createClient(6379, '127.0.0.1', {})
@@ -23,6 +24,13 @@ app.get('/', function(req, res) {
 	client.lpush("myPages",req.url)
   res.send('Welcome to Server_1, Port is 5001')
 	
+})
+
+app.get('/monitor', function(req, res) {
+	open('file:///home/ubuntu/blue-www/monitor/www/index.html', function (err) {
+		if (err) throw err;
+		console.log("The use closed the browser.");
+	})	
 })
 
 
