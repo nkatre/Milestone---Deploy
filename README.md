@@ -122,8 +122,8 @@ $ ssh-add Nikhil.pem
 8. Add git remote
 
 ```bash
-$ git remote add blue ssh://ubuntu@52.5.33.235/blue.git
-$ git remote add green ssh://ubuntu@52.5.15.126/green.git
+$ git remote add blue ssh://ubuntu@52.5.33.235/home/ubuntu/blue.git
+$ git remote add green ssh://ubuntu@52.5.15.126/home/ubuntu/green.git
 ```
 Setup remote git repo on canary1
 
